@@ -1,5 +1,5 @@
 class Solution {
-  Map<String, int> romanNumerals = {
+  Map<String, int> numeralsMap = {
     'M': 1000,
     'D': 500,
     'C': 100,
@@ -8,6 +8,8 @@ class Solution {
     'V': 5,
     'I': 1
   };
+
+  List<String> numerals = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
 
   List<String> possibleLetters = [
     'I',
@@ -37,19 +39,30 @@ class Solution {
   int romanToInt(String s) {
     int output = 0;
 
+    List a = ['a', 'b', 'c'];
+    print(a[1 + 1]);
+
+    // test for constraints
     if ((s.length < 1 || s.length > 15) ||
-        s.split('').every((element) => !romanNumerals.keys.contains(element))) {
+        s.split('').every((element) => !numeralsMap.keys.contains(element))) {
       return 401;
     }
 
-    List<String> letters = s.split('');
+    final List<String> letters = s.split('');
 
-    String nextLetter = '';
+    String letter = letters[0];
+    String nextLetter = letters[1];
 
-    for (int stringIndex = 0; stringIndex < letters.length; stringIndex++) {
-      output += romanNumerals[letters[stringIndex]]!;
+    String tempSubtract = '';
+    for (int currentIndex = 0; currentIndex < letters.length; currentIndex++) {
+      letter = letters[currentIndex];
+      if (currentIndex != letters.length) {
+        nextLetter = letters[currentIndex + 1];
+      }
 
-      nextLetter = letters[stringIndex];
+      if (numerals.indexOf(letter) > numerals.indexOf(nextLetter)) {
+        output += numeralsMap[letter]!;
+      }
     }
 
     return output;
