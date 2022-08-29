@@ -1,16 +1,4 @@
 class Solution {
-  Map<String, int> numeralsMap = {
-    'M': 1000,
-    'D': 500,
-    'C': 100,
-    'L': 50,
-    'X': 10,
-    'V': 5,
-    'I': 1
-  };
-
-  List<String> numerals = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
-
   List<String> possibleLetters = [
     'I',
     'II',
@@ -36,11 +24,20 @@ class Solution {
     'CXXX',
   ];
 
+  Map<String, int> numeralsMap = {
+    'M': 1000,
+    'D': 500,
+    'C': 100,
+    'L': 50,
+    'X': 10,
+    'V': 5,
+    'I': 1
+  };
+
+  List<String> numerals = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
+
   int romanToInt(String s) {
     int output = 0;
-
-    List a = ['a', 'b', 'c'];
-    print(a[1 + 1]);
 
     // test for constraints
     if ((s.length < 1 || s.length > 15) ||
@@ -53,15 +50,23 @@ class Solution {
     String letter = letters[0];
     String nextLetter = letters[1];
 
-    String tempSubtract = '';
-    for (int currentIndex = 0; currentIndex < letters.length; currentIndex++) {
+    int currentIndex = 0;
+    while (currentIndex < letters.length) {
       letter = letters[currentIndex];
-      if (currentIndex != letters.length) {
-        nextLetter = letters[currentIndex + 1];
-      }
+      nextLetter = currentIndex < letters.length - 1
+          ? letters[currentIndex + 1]
+          : letters.last;
 
-      if (numerals.indexOf(letter) > numerals.indexOf(nextLetter)) {
+      if (numerals.indexOf(letter) <= numerals.indexOf(nextLetter)) {
+        print('yes');
+        // normal letter
         output += numeralsMap[letter]!;
+        currentIndex += 1;
+      } else {
+        print('no');
+        // letter to be subtracted
+        output += (numeralsMap[nextLetter]! - numeralsMap[letter]!);
+        currentIndex += 2;
       }
     }
 
