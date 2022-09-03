@@ -1,29 +1,6 @@
-class Solution {
-  List<String> possibleLetters = [
-    'I',
-    'II',
-    'III',
-    'IV',
-    'V',
-    'VI',
-    'VII',
-    'VIII',
-    'IX',
-    'X',
-    'XX',
-    'XXX',
-    'XV',
-    'V',
-    'VX',
-    'VXX',
-    'VXXX',
-    'XC',
-    'C',
-    'CX',
-    'CXX',
-    'CXXX',
-  ];
+/// Completed
 
+class Solution {
   Map<String, int> numeralsMap = {
     'M': 1000,
     'D': 500,
@@ -34,54 +11,37 @@ class Solution {
     'I': 1
   };
 
-  List<String> numerals = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
-
   int romanToInt(String s) {
-    int output = 0;
-
-    // test for constraints
-    if ((s.length < 1 || s.length > 15) ||
-        s.split('').every((element) => !numeralsMap.keys.contains(element))) {
-      return 401;
-    }
-
-    final List<String> letters = s.split('');
-
-    String letter = letters[0];
-    String nextLetter = letters[1];
+    int _output = 0;
 
     int currentIndex = 0;
-    while (currentIndex < letters.length) {
-      letter = letters[currentIndex];
-      nextLetter = currentIndex < letters.length - 1
-          ? letters[currentIndex + 1]
-          : letters.last;
+    while (currentIndex < s.length) {
+      String letter = s[currentIndex];
+      String nextLetter =
+          currentIndex < s.length - 1 ? s[currentIndex + 1] : s[s.length - 1];
 
-      if (numerals.indexOf(letter) <= numerals.indexOf(nextLetter)) {
-        print('yes');
-        // normal letter
-        output += numeralsMap[letter]!;
+      if (numeralsMap[letter]! >= numeralsMap[nextLetter]!) {
+        _output += numeralsMap[letter]!;
         currentIndex += 1;
       } else {
-        print('no');
-        // letter to be subtracted
-        output += (numeralsMap[nextLetter]! - numeralsMap[letter]!);
+        _output += (numeralsMap[nextLetter]! - numeralsMap[letter]!);
         currentIndex += 2;
       }
     }
 
-    return output;
+    return _output;
   }
 }
 
 void main() {
+  String num0 = 'IV';
   String num1 = 'III';
   String num2 = 'LVIII';
   String num3 = 'MCMXCIV';
 
   Solution solution = Solution();
 
-  for (String input in [num1, num2, num3]) {
+  for (String input in [num0, num1, num2, num3]) {
     print(solution.romanToInt(input));
   }
 }
